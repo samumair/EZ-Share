@@ -2,35 +2,38 @@
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
 
+#-------------------------------------------------------------------------------------------
 #Window
 $objForm = New-Object System.Windows.Forms.Form
-$objForm.Size = New-Object System.Drawing.Size(800,500)
-$objForm.Font = New-Object System.Drawing.Font("Calibri",11,[System.Drawing.FontStyle]::Italic)
+$objForm.Size = New-Object System.Drawing.Size(800, 500)
+$objForm.Font = New-Object System.Drawing.Font("Calibri",11,[System.Drawing.FontStyle]::Bold)
 $objForm.Text = "EZ-Share"
 $objForm.BackColor = "white"
+
 $CenterScreen = [System.Windows.Forms.FormStartPosition]::CenterScreen;
 $objForm.StartPosition = $CenterScreen;
 
+#-------------------------------------------------------------------------------------------
 #Text
 $objLabel_File = New-Object System.Windows.Forms.Label
 $objLabel_File.Location = New-Object System.Drawing.Size(28,10)
 $objLabel_File.Size = New-Object System.Drawing.Size (500,33)
-$objLabel_File.Font = New-Object System.Drawing.Font ("Calibri,20")
 $objLabel_File.Text = "Bitte wählen Sie einen Ordner aus"
 $objForm.Controls.Add($objLabel_File)
 
-$objLabel_File = New-Object System.Windows.Forms.Label
-$objLabel_File.Location = New-Object System.Drawing.Size(28,200)
-$objLabel_File.Size = New-Object System.Drawing.Size (110,30)
-$objLabel_File.Text = "Username:"
-$objForm.Controls.Add($objLabel_File)
+$objLabel_UN = New-Object System.Windows.Forms.Label
+$objLabel_UN.Location = New-Object System.Drawing.Size(28,200)
+$objLabel_UN.Size = New-Object System.Drawing.Size (115,30)
+$objLabel_UN.Text = "Username:"
+$objForm.Controls.Add($objLabel_UN)
 
-$objLabel_File = New-Object System.Windows.Forms.Label
-$objLabel_File.Location = New-Object System.Drawing.Size(28,250)
-$objLabel_File.Size = New-Object System.Drawing.Size (110,30)
-$objLabel_File.Text = "Password:"
-$objForm.Controls.Add($objLabel_File)
+$objLabel_PW = New-Object System.Windows.Forms.Label
+$objLabel_PW.Location = New-Object System.Drawing.Size(28,250)
+$objLabel_PW.Size = New-Object System.Drawing.Size (110,30)
+$objLabel_PW.Text = "Password:"
+$objForm.Controls.Add($objLabel_PW)
 
+#-------------------------------------------------------------------------------------------
 # Text Boxes
 $objTextBox_File = New-Object System.Windows.Forms.TextBox
 $objTextBox_File.Location = New-Object System.Drawing.Size (30,45)
@@ -46,10 +49,10 @@ $objTextBox_PW = New-Object System.Windows.Forms.Textbox
 $objTextBox_PW.Location = New-Object System.Drawing.Size (150,250)
 $objTextBox_PW.Size = New-Object System.Drawing.Size (400, 300)
 $objForm.Controls.Add($objTextBox_PW)
-
+#-------------------------------------------------------------------------------------------
 #Buttons
 $Button_Start = New-Object System.Windows.Forms.Button
-$Button_Start.Location = New-Object System.Drawing.Size (300,350)
+$Button_Start.Location = New-Object System.Drawing.Size (275,350)
 $Button_Start.Size = New-Object System.Drawing.Size (80,40)
 $Button_Start.Text = "Start"
 $Button_Start.Name = "Start Button"
@@ -62,6 +65,7 @@ $Button_Stopp.Text = "Stopp"
 $Button_Stopp.Name = "Stopp Button"
 $objForm.Controls.Add($Button_Stopp)
 
+#-------------------------------------------------------------------------------------------
 #Checkbox
 $Checkbox_R = New-Object System.Windows.Forms.Checkbox 
 $Checkbox_R.Location = New-Object System.Drawing.Size(100,80) 
@@ -77,12 +81,17 @@ $Checkbox_RW.Text = "Read/Write"
 #$Checkbox_RW.TabIndex = 4
 $objForm.Controls.Add($Checkbox_RW)
 
+#-------------------------------------------------------------------------------------------
 #Button Folder + Folder Browser + Folder Pick 
 $Button_FolderPick = New-Object System.Windows.Forms.Button
 $Button_FolderPick.Location = New-Object System.Drawing.Size (660,35)
 $Button_FolderPick.Size = New-Object System.Drawing.Size (90,40)
 $Button_FolderPick.Text = "Browse"
 $Button_FolderPick.Name = "Folder Pick"
+
+#$Button_FolderPick.Image = [System.Drawing.Image]::FromFile('D:\Dokumente_D\#1_Schule\4.Klasse\FSST\Walch\EZ-Share\folder.png')
+ 
+
 $objForm.Controls.Add($Button_FolderPick)
 $Button_FolderPick.Add_Click({
 Function Get-Folder($initialDirectory) {
