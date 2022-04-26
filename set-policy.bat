@@ -1,1 +1,0 @@
-PowerShell -ExecutionPolicy Bypass ./GUI.ps1
