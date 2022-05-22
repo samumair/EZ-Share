@@ -1,0 +1,1 @@
+PowerShell -ExecutionPolicy Bypass ./EZ-Share.ps1
