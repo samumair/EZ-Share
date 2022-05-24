@@ -13,206 +13,249 @@ if(!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]:
 
 #-------------------------------------------------------------------------------------------
 #Window
-$objForm = New-Object System.Windows.Forms.Form
-$objForm.Size = New-Object System.Drawing.Size(800, 500)
-$objForm.Font = New-Object System.Drawing.Font("Calibri",11,[System.Drawing.FontStyle]::Bold)
-$objForm.Text = "EZ-Share"
-$objForm.BackColor = "white"
+$objform = New-Object System.Windows.Forms.Form
+$objform.Size = New-Object System.Drawing.Size(800, 500)
+$objform.Font = New-Object System.Drawing.Font("Calibri",11,[System.Drawing.FontStyle]::Bold)
+$objform.Text = "EZ-Share"
+$objform.BackColor = "white"
 
-$CenterScreen = [System.Windows.Forms.FormStartPosition]::CenterScreen;
-$objForm.StartPosition = $CenterScreen;
+$center_screen = [System.Windows.Forms.FormStartPosition]::CenterScreen;
+$objform.StartPosition = $center_screen;
 
-#-------------------------------------------------------------------------------------------
-#Text IP
-$Label_IP = New-Object System.Windows.Forms.Label
-$Label_IP.Location = New-Object System.Drawing.Size (250,375)
-$Label_IP.Size = New-Object System.Drawing.Size (280,30)
-$ipv4 = (Get-netipconfiguration | Where-Object {$_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"} |Get-NetIPAddress| Select -ExpandProperty IPv4Address)
-$Label_IP.Text = "IP:\\$ipv4\EZ-Share"
-$objForm.Controls.Add($Label_IP)
 
 #-------------------------------------------------------------------------------------------
-#Copy Button IP
-$Button_Copy = New-Object System.Windows.Forms.Button
-$Button_Copy.Location = New-Object System.Drawing.Size (530,373)
-$Button_Copy.Size = New-Object System.Drawing.Size (70,35)
-$Button_Copy.Text = "Copy"
-$Button_Copy.Name = "Copy Pick"
-$objForm.Controls.Add($Button_Copy)
-$Button_Copy.Add_Click({Copy_Click})
+#Text username
+$label_un = New-Object System.Windows.Forms.Label
+$label_un.Location = New-Object System.Drawing.Size (28,200)
+$label_un.Size = New-Object System.Drawing.Size (115,30)
+$label_un.Text = "Benutzername:"
+$objform.Controls.Add($label_un)
 
 #-------------------------------------------------------------------------------------------
-#Text Username
-$Label_UN = New-Object System.Windows.Forms.Label
-$Label_UN.Location = New-Object System.Drawing.Size (28,200)
-$Label_UN.Size = New-Object System.Drawing.Size (115,30)
-$Label_UN.Text = "Username:"
-$objForm.Controls.Add($Label_UN)
+# Text box + input username
+$textbox_un = New-Object System.Windows.Forms.TextBox
+$textbox_un.Location = New-Object System.Drawing.Size (150,200)
+$textbox_un.Size = New-Object System.Drawing.Size (400, 30)
+$textbox_un.Multiline = $true
+$textbox_un.Font = New-Object System.Drawing.Font ("Calibri", 14,[System.Drawing.FontStyle]::Regular)
+$objform.Controls.Add($textbox_un)
+
+$username = $textbox_un.Text
 
 #-------------------------------------------------------------------------------------------
-# Text Box + Input Username
-$TextBox_UN = New-Object System.Windows.Forms.TextBox
-$TextBox_UN.Location = New-Object System.Drawing.Size (150,200)
-$TextBox_UN.Size = New-Object System.Drawing.Size (400, 30)
-$TextBox_UN.Multiline = $true
-$TextBox_UN.Font = New-Object System.Drawing.Font ("Calibri", 14,[System.Drawing.FontStyle]::Regular)
-$objForm.Controls.Add($TextBox_UN)
-
-$Username = $TextBox_UN.Text
+#Text password
+$label_pw = New-Object System.Windows.Forms.Label
+$label_pw.Location = New-Object System.Drawing.Size(28,250)
+$label_pw.Size = New-Object System.Drawing.Size (110,30)
+$label_pw.Text = "Passwort:"
+$objform.Controls.Add($label_pw)
 
 #-------------------------------------------------------------------------------------------
-#Text Password
-$Label_PW = New-Object System.Windows.Forms.Label
-$Label_PW.Location = New-Object System.Drawing.Size(28,250)
-$Label_PW.Size = New-Object System.Drawing.Size (110,30)
-$Label_PW.Text = "Password:"
-$objForm.Controls.Add($Label_PW)
+# Text box + input password
+$textbox_pw = New-Object System.Windows.Forms.TextBox
+$textbox_pw.Location = New-Object System.Drawing.Size (150,250)
+$textbox_pw.Size = New-Object System.Drawing.Size (400, 30)
+$textbox_pw.Multiline = $true
+$textbox_pw.Font = New-Object System.Drawing.Font ("Calibri", 14,[System.Drawing.FontStyle]::Regular)
+$objform.Controls.Add($textbox_pw)
+
+$password = $textbox_pw.Text
 
 #-------------------------------------------------------------------------------------------
-# Text Box + Input Password
-$TextBox_PW = New-Object System.Windows.Forms.TextBox
-$TextBox_PW.Location = New-Object System.Drawing.Size (150,250)
-$TextBox_PW.Size = New-Object System.Drawing.Size (400, 30)
-$TextBox_PW.Multiline = $true
-$TextBox_PW.Font = New-Object System.Drawing.Font ("Calibri", 14,[System.Drawing.FontStyle]::Regular)
-$objForm.Controls.Add($TextBox_PW)
-
-$Password = $TextBox_PW.Text
-
-#-------------------------------------------------------------------------------------------
-#Button Erstellen
-$Button_Erstellen = New-Object System.Windows.Forms.Button
-$Button_Erstellen.Location = New-Object System.Drawing.Size (320,300)
-$Button_Erstellen.Size = New-Object System.Drawing.Size (100,40)
-$Button_Erstellen.Text = "Erstellen"
-$Button_Erstellen.Name = "Erstellen Button"
-$objForm.Controls.Add($Button_Erstellen)
-$Button_Erstellen.Add_Click({Button_Erstellen_Click})
+#Create button
+$button_create = New-Object System.Windows.Forms.Button
+$button_create.Location = New-Object System.Drawing.Size (320,300)
+$button_create.Size = New-Object System.Drawing.Size (100,40)
+$button_create.Text = "Erstellen"
+$button_create.Name = "Erstellen Button"
+$objform.Controls.Add($button_create)
+$button_create.Add_Click({Button_Erstellen_Click})
 
 #-------------------------------------------------------------------------------------------
-#Radio Button Read + Read/Write 
+#Radio button read + read/write 
 
 $groupBox = New-Object System.Windows.Forms.GroupBox 
 $groupBox.Location = New-Object System.Drawing.Size(200,80) 
 $groupBox.size = New-Object System.Drawing.Size(300,40) 
-$objForm.Controls.Add($groupBox)
+$objform.Controls.Add($groupBox)
 
-$RadioButton_R = New-Object System.Windows.Forms.RadioButton 
-$RadioButton_R.Location = new-object System.Drawing.Point(15,15) 
-$RadioButton_R.size = New-Object System.Drawing.Size(80,20) 
-$RadioButton_R.Checked = $true 
-$RadioButton_R.Text = "Read" 
-$groupBox.Controls.Add($RadioButton_R) 
+$radiobutton_r = New-Object System.Windows.Forms.RadioButton 
+$radiobutton_r.Location = new-object System.Drawing.Point(15,15) 
+$radiobutton_r.size = New-Object System.Drawing.Size(80,20) 
+$radiobutton_r.Checked = $true 
+$radiobutton_r.Text = "Lesen" 
+$groupBox.Controls.Add($radiobutton_r) 
 
-$RadioButton_RW = New-Object System.Windows.Forms.RadioButton 
-$RadioButton_RW.Location = new-object System.Drawing.Point(150,15) 
-$RadioButton_RW.size = New-Object System.Drawing.Size(145,20) 
-$RadioButton_RW.Checked = $false 
-$RadioButton_RW.Text = "Read/Write" 
-$groupBox.Controls.Add($RadioButton_RW) 
-
-#-------------------------------------------------------------------------------------------
-# Text Box Folder
-$TextBox_File = New-Object System.Windows.Forms.TextBox
-$TextBox_File.Location = New-Object System.Drawing.Size (30,45)
-$TextBox_File.Size = New-Object System.Drawing.Size (600, 30)
-$TextBox_File.Multiline = $true
-$TextBox_File.Font = New-Object System.Drawing.Font ("Calibri", 14,[System.Drawing.FontStyle]::Regular)
-
-$objForm.Controls.Add($TextBox_File)
+$radiobutton_rW = New-Object System.Windows.Forms.RadioButton 
+$radiobutton_rW.Location = new-object System.Drawing.Point(150,15) 
+$radiobutton_rW.size = New-Object System.Drawing.Size(145,20) 
+$radiobutton_rW.Checked = $false 
+$radiobutton_rW.Text = "Lesen/Schreiben" 
+$groupBox.Controls.Add($radiobutton_rW) 
 
 #-------------------------------------------------------------------------------------------
-#Text File
-$Label_File = New-Object System.Windows.Forms.Label
-$Label_File.Location = New-Object System.Drawing.Size(28,10)
-$Label_File.Size = New-Object System.Drawing.Size (500,33)
-$Label_File.Text = "Bitte wählen Sie einen Ordner aus:"
-$objForm.Controls.Add($Label_File)
+# Text box folder
+$textbox_file = New-Object System.Windows.Forms.TextBox
+$textbox_file.Location = New-Object System.Drawing.Size (30,45)
+$textbox_file.Size = New-Object System.Drawing.Size (600, 30)
+$textbox_file.Multiline = $true
+$textbox_file.Font = New-Object System.Drawing.Font ("Calibri", 14,[System.Drawing.FontStyle]::Regular)
+
+$objform.Controls.Add($textbox_file)
 
 #-------------------------------------------------------------------------------------------
-#Button Folder + Folder Browser + Folder Pick
-$Button_FolderPick = New-Object System.Windows.Forms.Button
-$Button_FolderPick.Location = New-Object System.Drawing.Size (660,43)
-$Button_FolderPick.Size = New-Object System.Drawing.Size (90,35)
-$Button_FolderPick.Text = "..."
-$Button_FolderPick.Name = "Folder Pick"
-$objForm.Controls.Add($Button_FolderPick)
-$Button_FolderPick.Add_Click({Select-FolderDialog})
-
+#Text file
+$label_file = New-Object System.Windows.Forms.Label
+$label_file.Location = New-Object System.Drawing.Size(28,10)
+$label_file.Size = New-Object System.Drawing.Size (500,33)
+$label_file.Text = "Bitte wählen Sie einen Ordner aus:"
+$objform.Controls.Add($label_file)
 
 #-------------------------------------------------------------------------------------------
-#Function Folder select
+#Button folder + folder browser + folder pick
+$button_folder_pick = New-Object System.Windows.Forms.Button
+$button_folder_pick.Location = New-Object System.Drawing.Size (660,43)
+$button_folder_pick.Size = New-Object System.Drawing.Size (90,35)
+$button_folder_pick.Text = "..."
+$button_folder_pick.Name = "Folder Pick"
+$objform.Controls.Add($button_folder_pick)
+$button_folder_pick.Add_Click({Select-FolderDialog})
+
+#-------------------------------------------------------------------------------------------
+#Text error path
+$label_error_path = New-Object System.Windows.Forms.Label
+$label_error_path.Location = New-Object System.Drawing.Size(300,370)
+$label_error_path.Size = New-Object System.Drawing.Size (500,33)
+$label_error_path.Text = "Kein Ordner ausgewählt!"
+
+#-------------------------------------------------------------------------------------------
+#Text error username
+$label_error_username = New-Object System.Windows.Forms.Label
+$label_error_username.Location = New-Object System.Drawing.Size(300,370)
+$label_error_username.Size = New-Object System.Drawing.Size (500,33)
+$label_error_username.Text = "Kein Username eingegeben!"
+
+#-------------------------------------------------------------------------------------------
+#Text error password
+$label_error_password = New-Object System.Windows.Forms.Label
+$label_error_password.Location = New-Object System.Drawing.Size(300,370)
+$label_error_password.Size = New-Object System.Drawing.Size (500,33)
+$label_error_password.Text = "Kein Passwort eingegeben!"
+
+#-------------------------------------------------------------------------------------------
+#Function folder select
 function Select-FolderDialog  
 {
-    param([String]$Description="Folder Pick", 
-    [String]$RootFolder="Desktop")   
+    param([String]$description="Folder Pick", 
+    [String]$root_folder="Desktop")   
    
-    $objForm2 = New-Object System.Windows.Forms.FolderBrowserDialog
-    $objForm2.Rootfolder = $RootFolder
-    $objForm2.Description = $Description
-    $Show = $objForm2.ShowDialog()
-    if ($Show -eq 'OK')
+    $objform2 = New-Object System.Windows.Forms.FolderBrowserDialog
+    $objform2.Rootfolder = $root_folder
+    $objform2.Description = $description
+    $show = $objform2.ShowDialog()
+    if ($show -eq 'OK')
     {
-        $TextBox_File.Text = $objForm2.SelectedPath
+        $textbox_file.Text = $objform2.SelectedPath
     }
 }
 
 #-------------------------------------------------------------------------------------------
-#Function Button "Erstellen"
-Function Button_Erstellen_Click() {
-    $folderpath = $TextBox_File.Text
-    $Username = $TextBox_UN.Text
-    $Password = ConvertTo-SecureString $TextBox_PW.Text -AsPlainText -Force
+#Function button "Erstellen"
+Function Button_Erstellen_Click() 
+{
+    $folderpath = $textbox_file.Text
+    $username = $textbox_un.Text
+    $password = ConvertTo-SecureString $textbox_pw.Text -AsPlainText -Force
 
-    New-LocalUser -Name $Username -Description "EZ-Share Benutzeraccount" -Password $Password
-
-    if ($RadioButton_R.Checked -eq $true)
+    if ($folderpath -eq ""){
+        $objform.Controls.Add($label_error_path) 
+    }
+    elseif($username -eq "")
     {
-        Write-Host "Read" -ForegroundColor Yellow
-        New-SmbShare -Name EZ-Share -Path $folderpath -Temporary -EncryptData $True -ReadAccess $Username
+    $objform.Controls.Remove($label_error_path)
+    $objform.Controls.Add($label_error_username)
+    }
+    elseif($textbox_pw.Text -eq "")
+    {
+    $objform.Controls.Remove($label_error_path)
+    $objform.Controls.Remove($label_error_username)
+    $objform.Controls.Add($label_error_password)   
     }
     else
     {
-        Write-Host "Read/Write" -ForegroundColor Yellow
-        New-SmbShare -Name EZ-Share -Path $folderpath -Temporary -EncryptData $True -FullAccess $Username
+    $objform.Controls.Remove($label_error_path)
+    $objform.Controls.Remove($label_error_username)
+    $objform.Controls.Remove($label_error_password)
+    
+    $objform.Controls.Remove($button_create)
+    
+    New-LocalUser -Name $username -Description "EZ-Share Benutzeraccount" -Password $password
+
+    if ($radiobutton_r.Checked -eq $true)
+    {
+        New-SmbShare -Name EZ-Share -Path $folderpath -Temporary -EncryptData $True -ReadAccess $username
+    }
+    else
+    {
+        New-SmbShare -Name EZ-Share -Path $folderpath -Temporary -EncryptData $True -FullAccess $username
     }
 
     $folder=get-acl $folderpath
-    $addaccess = New-Object System.Security.AccessControl.FileSystemAccessRule("$env:COMPUTERNAME\$Username","FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
+    $addaccess = New-Object System.Security.AccessControl.FileSystemAccessRule("$env:COMPUTERNAME\$username","FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
     $folder.SetAccessRule($addaccess)
     $folder | Set-Acl $folderpath
 
 #-------------------------------------------------------------------------------------------
-#Button "Löschen" + remove Button "Erstellen"  
-    $objform.Controls.Remove($Button_Erstellen)
-    $Button_Löschen = New-Object System.Windows.Forms.Button
-    $Button_Löschen.Location = New-Object System.Drawing.Size (320,300)
-    $Button_Löschen.Size = New-Object System.Drawing.Size (100,40)
-    $Button_Löschen.Text = "Löschen"
-    $Button_Löschen.Name = "Löschen Button"  
-    $objForm.Controls.Add($Button_Löschen)
-    $Button_Löschen.Add_Click({Button_Löschen_Click})
+#Text IP
+    $center_screen = New-Object System.Windows.Forms.Label
+    $center_screen.Location = New-Object System.Drawing.Size (250,375)
+    $center_screen.Size = New-Object System.Drawing.Size (280,30)
+    $ipv4 = (Get-netipconfiguration | Where-Object {$_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"} |Get-NetIPAddress| Select -ExpandProperty IPv4Address)
+    $center_screen.Text = "IP:\\$ipv4\EZ-Share"
+    $objform.Controls.Add($center_screen)
+
+#-------------------------------------------------------------------------------------------
+#Copy button IP
+    $button_copy = New-Object System.Windows.Forms.Button
+    $button_copy.Location = New-Object System.Drawing.Size (530,373)
+    $button_copy.Size = New-Object System.Drawing.Size (70,35)
+    $button_copy.Text = "Kopieren"
+    $button_copy.Name = "Copy Pick"
+    $objform.Controls.Add($button_copy)
+    $button_copy.Add_Click({Copy_Click})
+
+#-------------------------------------------------------------------------------------------
+#Button "Löschen" + remove button "Erstellen"  
+    $button_delete = New-Object System.Windows.Forms.Button
+    $button_delete.Location = New-Object System.Drawing.Size (320,300)
+    $button_delete.Size = New-Object System.Drawing.Size (100,40)
+    $button_delete.Text = "Löschen"
+    $button_delete.Name = "Löschen Button"  
+    $objform.Controls.Add($button_delete)
+    $button_delete.Add_Click({Button_Löschen_Click})
+    }
 }
 
 #-------------------------------------------------------------------------------------------
-#Function Button "Löschen"
+#Function button "Löschen"
 Function Button_Löschen_Click() {
-    $folderpath = $TextBox_File.Text
-    $Username = $TextBox_UN.Text
-    
+    $folderpath = $textbox_file.Text
+    $username = $textbox_un.Text
 
     $folder=get-acl $folderpath
-    $addaccess = New-Object System.Security.AccessControl.FileSystemAccessRule("$env:COMPUTERNAME\$Username","FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
+    $addaccess = New-Object System.Security.AccessControl.FileSystemAccessRule("$env:COMPUTERNAME\$username","FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
     $folder.RemoveAccessRule($addaccess)
     $folder | Set-Acl $folderpath
 
     Remove-SmbShare -Name EZ-Share -Force
-    Remove-LocalUser -Name $Username
+    Remove-LocalUser -Name $username
+    $objform.Close()
 
 }
+
 
 Function Copy_Click() {
     $ipv4 = (Get-netipconfiguration | Where-Object {$_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"} |Get-NetIPAddress| Select -ExpandProperty IPv4Address)
     Set-Clipboard -Value "\\$ipv4\EZ-Share"
 }
-$rs = $objForm.ShowDialog()
+$rs = $objform.ShowDialog()
