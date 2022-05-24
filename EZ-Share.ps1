@@ -22,7 +22,6 @@ $objform.BackColor = "white"
 $center_screen = [System.Windows.Forms.FormStartPosition]::CenterScreen;
 $objform.StartPosition = $center_screen;
 
-
 #-------------------------------------------------------------------------------------------
 #Text username
 $label_un = New-Object System.Windows.Forms.Label
