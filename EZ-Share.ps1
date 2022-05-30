@@ -1,6 +1,4 @@
-﻿#remove this line, if you read the readme
-#-------------------------------------------------------------------------------------------
-#Libraries
+﻿#Libraries
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
