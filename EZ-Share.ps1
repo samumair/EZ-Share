@@ -131,7 +131,7 @@ $label_error_path.Text = "Kein Ordner ausgewählt!"
 $label_error_username = New-Object System.Windows.Forms.Label
 $label_error_username.Location = New-Object System.Drawing.Size(300,370)
 $label_error_username.Size = New-Object System.Drawing.Size (500,33)
-$label_error_username.Text = "Kein Username eingegeben!"
+$label_error_username.Text = "Kein Benutzername eingegeben!"
 
 #-------------------------------------------------------------------------------------------
 #Text error password
