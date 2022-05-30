@@ -254,6 +254,6 @@ Function Button_Löschen_Click() {
 
 Function Copy_Click() {
     $ipv4 = (Get-netipconfiguration | Where-Object {$_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"} |Get-NetIPAddress| Select -ExpandProperty IPv4Address)
-    Set-Clipboard -Value "\\$ipv4\EZ-Share"
+    Set-Clipboard -Value "\\$ipv4"
 }
 $rs = $objform.ShowDialog()
